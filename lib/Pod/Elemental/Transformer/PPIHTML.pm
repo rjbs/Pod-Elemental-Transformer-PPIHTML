@@ -7,12 +7,38 @@ use utf8;
 use PPI;
 use PPI::HTML;
 
+=head1 DESCRIPTION
+
+This transformer looks for regions like this:
+
+  =begin perl
+
+    my $x = 1_00_000 ** $::xyzzy;
+
+  =end perl
+
+...into syntax-highlighted HTML that I can't really usefully represent here.
+It uses L<PPI::HTML>, so you can read more about the kind of HTML it will
+produce, there.
+
+This form is also accepted, in a verbatim paragraph:
+
+  #!perl
+  my $x = 1_00_000 ** $::xyzzy;
+
+In the above example, the shebang-like line will be stripped.
+
+B<Achtung!>  Two leading spaces are stripped from each line of the content to
+be highlighted.  This behavior may change and become more configurable in the
+future.
+
+=cut
+
 sub build_html {
   my ($self, $arg) = @_;
   my $perl = $arg->{content};
   my $opt  = $arg->{options};
 
-  1 while chomp $perl;
   $perl =~ s/^  //gms;
 
   my $ppi_doc = PPI::Document->new(\$perl);
