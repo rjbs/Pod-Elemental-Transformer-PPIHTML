@@ -1,6 +1,7 @@
 package Pod::Elemental::Transformer::PPIHTML;
 use Moose;
 with 'Pod::Elemental::Transformer::SynHi';
+# ABSTRACT: convert "=begin perl" and shebang-marked blocks to XHTML
 
 use utf8;
 use PPI;
