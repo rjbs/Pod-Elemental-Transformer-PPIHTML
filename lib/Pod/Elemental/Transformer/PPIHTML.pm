@@ -1,6 +1,6 @@
+use 5.010;
 package Pod::Elemental::Transformer::PPIHTML;
 use Moose;
-with 'Pod::Elemental::Transformer::SynHi';
 # ABSTRACT: convert "=begin perl" and shebang-marked blocks to XHTML
 
 use utf8;
@@ -34,6 +34,8 @@ future.
 
 =cut
 
+has format_name => (is => 'ro', isa => 'Str', default => 'perl');
+
 sub build_html {
   my ($self, $arg) = @_;
   my $perl = $arg->{content};
@@ -52,32 +54,10 @@ sub build_html {
   return $self->standard_code_block( $html );
 }
 
-sub synhi_params_for_para {
-  my ($self, $para) = @_;
-
-  if (
-    $para->isa('Pod::Elemental::Element::Pod5::Region')
-    and    $para->format_name eq 'perl'
-  ) {
-    die "=begin :perl makes no sense\n" if $para->is_pod;
-
-    my $perl = $para->children->[0]->as_pod_string;
-    return {
-      content => $para->content,
-      options => ($1 || ''),
-      syntax  => 'perl',
-    }
-  } elsif ($para->isa('Pod::Elemental::Element::Pod5::Verbatim')) {
-    my $content = $para->content;
-    return unless $content =~ s/\A\s*#!perl(?:\s+(\S+))?\n+//gsm;
-    return {
-      content => $content,
-      options => ($1 || ''),
-      syntax  => 'perl',
-    }
-  }
-
-  return;
+sub extra_synhi_params {
+  my ($self, $str) = @_;
+  return { options => [ split /s\+/, ($str//'') ] };
 }
 
+with 'Pod::Elemental::Transformer::SynHi';
 1;
