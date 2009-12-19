@@ -1,6 +1,7 @@
 use 5.010;
 package Pod::Elemental::Transformer::PPIHTML;
 use Moose;
+with 'Pod::Elemental::Transformer::SynHi';
 # ABSTRACT: convert "=begin perl" and shebang-marked blocks to XHTML
 
 use utf8;
@@ -34,12 +35,10 @@ future.
 
 =cut
 
-has format_name => (is => 'ro', isa => 'Str', default => 'perl');
+has '+format_name' => (default => 'perl');
 
 sub build_html {
-  my ($self, $arg) = @_;
-  my $perl = $arg->{content};
-  my $opt  = $arg->{options};
+  my ($self, $perl, $param) = @_;
 
   $perl =~ s/^  //gms;
 
@@ -47,7 +46,7 @@ sub build_html {
   my $ppihtml = PPI::HTML->new;
   my $html    = $ppihtml->html( $ppi_doc );
 
-  $opt->{'stupid-hyphen'} and s/-/−/g for $html;
+  $param->{'stupid-hyphen'} and s/-/−/g for $html;
 
   $html =~ s/<br>\n?/\n/g;
 
@@ -66,5 +65,4 @@ sub parse_synhi_param {
   return { 'stupid-hyphen' => 1 };
 }
 
-with 'Pod::Elemental::Transformer::SynHi';
 1;
