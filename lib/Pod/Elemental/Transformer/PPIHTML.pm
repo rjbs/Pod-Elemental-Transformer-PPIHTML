@@ -54,11 +54,17 @@ sub build_html {
   return $self->standard_code_block( $html );
 }
 
-sub validate_synhi_options {
-  my ($self, $opt) = @_;
-  # confess "no synhi parameters are accepted" if keys %$opt;
-}
+sub parse_synhi_param {
+  my ($self, $str) = @_;
 
+  my @keys = split /\s+/, $str;
+  return {} unless @keys;
+
+  confess "couldn't parse PPIHTML region parameter"
+    if @keys > 1 or $keys[0] ne 'stupid-hyphen';
+
+  return { 'stupid-hyphen' => 1 };
+}
 
 with 'Pod::Elemental::Transformer::SynHi';
 1;
