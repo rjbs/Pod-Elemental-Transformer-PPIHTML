@@ -29,18 +29,12 @@ This form is also accepted, in a verbatim paragraph:
 
 In the above example, the shebang-like line will be stripped.
 
-B<Achtung!>  Two leading spaces are stripped from each line of the content to
-be highlighted.  This behavior may change and become more configurable in the
-future.
-
 =cut
 
 has '+format_name' => (default => 'perl');
 
 sub build_html {
   my ($self, $perl, $param) = @_;
-
-  $perl =~ s/^  //gms;
 
   my $ppi_doc = PPI::Document->new(\$perl);
   my $ppihtml = PPI::HTML->new;
