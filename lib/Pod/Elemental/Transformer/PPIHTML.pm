@@ -47,17 +47,18 @@ sub build_html {
   my $ppihtml = PPI::HTML->new;
   my $html    = $ppihtml->html( $ppi_doc );
 
-  $opt =~ /stupid-hyphen/ and s/-/−/g for $html;
+  $opt->{'stupid-hyphen'} and s/-/−/g for $html;
 
   $html =~ s/<br>\n?/\n/g;
 
   return $self->standard_code_block( $html );
 }
 
-sub extra_synhi_params {
-  my ($self, $str) = @_;
-  return { options => [ split /s\+/, ($str//'') ] };
+sub validate_synhi_options {
+  my ($self, $opt) = @_;
+  # confess "no synhi parameters are accepted" if keys %$opt;
 }
+
 
 with 'Pod::Elemental::Transformer::SynHi';
 1;
