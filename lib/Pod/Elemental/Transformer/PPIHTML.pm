@@ -44,7 +44,7 @@ sub build_html {
 
   $html =~ s/<br>\n?/\n/g;
 
-  return $self->standard_code_block( $html );
+  return $html;
 }
 
 sub parse_synhi_param {
