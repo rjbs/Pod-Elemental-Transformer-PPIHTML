@@ -10,7 +10,8 @@ use PPI::HTML;
 
 =head1 DESCRIPTION
 
-This transformer looks for regions like this:
+This transformer, based on L<Pod::Elemental::Transformer::SynHi>, looks for
+regions like this:
 
   =begin perl
 
@@ -28,6 +29,9 @@ This form is also accepted, in a verbatim paragraph:
   my $x = 1_00_000 ** $::xyzzy;
 
 In the above example, the shebang-like line will be stripped.
+
+The C<format_name> attribute may be supplied during the construction of the
+transformer to look for a region other than C<perl>.
 
 =cut
 
