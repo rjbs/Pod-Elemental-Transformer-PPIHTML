@@ -1,6 +1,7 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+          update bugtracker and repo
 
 0.093580  2009-12-24 21:16:39 America/New_York
           first release!
