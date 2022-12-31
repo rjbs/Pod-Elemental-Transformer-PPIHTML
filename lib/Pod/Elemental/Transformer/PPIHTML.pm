@@ -1,4 +1,4 @@
-use 5.010;
+use 5.012;
 package Pod::Elemental::Transformer::PPIHTML;
 use Moose;
 with 'Pod::Elemental::Transformer::SynHi';
